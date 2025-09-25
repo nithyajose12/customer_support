@@ -1,0 +1,23 @@
+/* Footer Styling */
+.footer {
+  background-color: #821d30; /* Dark background to match the header */
+  color: white; /* White text color for contrast */
+  padding: 20px 0; /* Vertical padding to give space */
+  text-align: center; /* Center-align the text */
+  position: relative; /* Ensures footer stays at the bottom but not fixed */
+  width: 100%;
+  bottom: 0;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1); /* Soft shadow at the top for depth */
+}
+
+.footer p {
+  margin: 0;
+  font-size: 14px; /* Smaller font for the footer text */
+}
+
+/* For mobile responsiveness */
+@media (max-width: 768px) {
+  .footer p {
+    font-size: 16px; /* Increase font size slightly on smaller screens */
+  }
+}
