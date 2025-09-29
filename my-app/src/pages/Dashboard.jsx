@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import feather from "feather-icons";
 
 const Dashboard = () => {
@@ -8,62 +8,56 @@ const Dashboard = () => {
   ]);
   const [input, setInput] = useState("");
   const [answer, setAnswer] = useState(null);
-  const [search, setSearch] = useState(""); // ✅ search input
+  const [search, setSearch] = useState(""); // search input
+
+  const ws = useRef(null);
+
+  // Initialize WebSocket
+  useEffect(() => {
+  ws.current = new WebSocket('ws://127.0.0.1:8000/ws/chat/123?token="mysecretkey123"');
+
+
+ // replace 123 with dynamic user ID
+    ws.current.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      setMessages((prev) => [...prev, { from: "bot", text: data.reply }]);
+    };
+    ws.current.onclose = () => console.log("WebSocket closed");
+    return () => ws.current.close();
+  }, []);
 
   useEffect(() => {
     feather.replace();
-  }, [messages, answer]); // refresh icons when view changes
+  }, [messages, answer]);
 
+  // FAQs
   const faqs = [
-    {
-      q: "How do I reset my password?",
-      a: "Try these steps:\n1. Go to the Settings page.\n2. Click Reset Password.\n3. Enter your new password and confirm it.\n4. Save changes.",
-    },
-    {
-      q: "How to connect to VPN?",
-      a: "Download the VPN client, install it, and log in using company credentials.",
-    },
+    { q: "How do I reset my password?", a: "Go to Settings → Reset Password → Enter new password → Save." },
+    { q: "How to connect to VPN?", a: "Download VPN client → Install → Login with credentials." },
     { q: "How to request leave?", a: "Open HR portal → Leave request form." },
-    {
-      q: "How to report a bug?",
-      a: "Go to 'Create Ticket' and select Bug category.",
-    },
-    {
-      q: "How to access payslip?",
-      a: "Login → Payroll → Payslip section.",
-    },
+    { q: "How to report a bug?", a: "Go to 'Create Ticket' → Select Bug category." },
+    { q: "How to access payslip?", a: "Login → Payroll → Payslip section." },
   ];
 
-  const handleFaqClick = (ans) => {
-    setAnswer(ans);
-  };
+  // FAQ click handler
+  const handleFaqClick = (ans) => setAnswer(ans);
 
-  // ✅ Search handler
+  // Search handler
   const handleSearch = () => {
     if (search.trim() !== "") {
-      const match = faqs.find((f) =>
-        f.q.toLowerCase().includes(search.toLowerCase())
-      );
-      if (match) {
-        setAnswer(match.a);
-      } else {
-        setAnswer(`(AI Response for "${search}" will be shown here...)`);
-      }
+      const match = faqs.find((f) => f.q.toLowerCase().includes(search.toLowerCase()));
+      if (match) setAnswer(match.a);
+      else setAnswer(`(AI Response for "${search}" will be shown here...)`);
     }
   };
 
+  // Chat input send handler
   const handleSendMessage = (e) => {
     if (e.key === "Enter" && input.trim() !== "") {
-      const newMessages = [...messages, { from: "user", text: input }];
-      setMessages(newMessages);
+      const userMessage = input;
+      setMessages((prev) => [...prev, { from: "user", text: userMessage }]);
       setInput("");
-
-      setTimeout(() => {
-        setMessages((prev) => [
-          ...prev,
-          { from: "bot", text: "I may have an idea..." },
-        ]);
-      }, 1000);
+      ws.current.send(JSON.stringify({ message: userMessage }));
     }
   };
 
@@ -79,8 +73,7 @@ const Dashboard = () => {
           onChange={(e) => setSearch(e.target.value)}
         />
         <button className="search-btn" onClick={handleSearch}>
-            <i data-feather="search"></i> {/* Feather search icon */}
-          
+          <i data-feather="search"></i>
         </button>
       </div>
 
@@ -90,11 +83,7 @@ const Dashboard = () => {
           <>
             <h2 className="faq-title">Common FAQs</h2>
             {faqs.map((f, idx) => (
-              <div
-                key={idx}
-                className="faq-item"
-                onClick={() => handleFaqClick(f.a)}
-              >
+              <div key={idx} className="faq-item" onClick={() => handleFaqClick(f.a)}>
                 {f.q}
               </div>
             ))}
@@ -102,7 +91,6 @@ const Dashboard = () => {
         ) : (
           <div className="answer-section">
             <p>{answer}</p>
-            {/* ✅ Back button */}
             <button
               className="btn-back"
               onClick={() => setAnswer(null)}
@@ -122,7 +110,7 @@ const Dashboard = () => {
         )}
       </div>
 
-      {/* Cards */}
+      {/* Cards Section */}
       <div className="cards-container">
         <div className="card create-ticket">
           <i data-feather="plus-circle" className="card-icon"></i>
@@ -134,7 +122,7 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Chatbot Button */}
+      {/* Chatbot Toggle Button */}
       <button className="chatbot-btn" onClick={() => setChatOpen(!chatOpen)}>
         <i data-feather="message-square"></i>
       </button>
@@ -145,10 +133,7 @@ const Dashboard = () => {
           <div className="chatbot-header">Helpdesk Chat</div>
           <div className="chatbot-messages">
             {messages.map((msg, i) => (
-              <div
-                key={i}
-                className={`chat-message ${msg.from === "bot" ? "bot" : "user"}`}
-              >
+              <div key={i} className={`chat-message ${msg.from === "bot" ? "bot" : "user"}`}>
                 {msg.text}
                 {msg.from === "bot" && (
                   <div className="chat-reaction">
