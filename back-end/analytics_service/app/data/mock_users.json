@@ -1,0 +1,7 @@
+[
+  {"id": 201, "first_name": "Alice", "last_name": "Johnson", "email": "alice@example.com", "password": "hashedpwd1", "role": 3},
+  {"id": 202, "first_name": "Bob", "last_name": "Smith", "email": "bob@example.com", "password": "hashedpwd2", "role": 3},
+  {"id": 203, "first_name": "Charlie", "last_name": "Lee", "email": "charlie@example.com", "password": "hashedpwd3", "role": 3},
+  {"id": 101, "first_name": "Admin", "last_name": "User", "email": "admin@example.com", "password": "hashedadmin", "role": 1},
+  {"id": 102, "first_name": "Regular", "last_name": "User", "email": "user@example.com", "password": "hasheduser", "role": 2}
+]

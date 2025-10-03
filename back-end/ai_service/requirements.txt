@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+openai
+faiss-cpu
+numpy
+python-dotenv
+python-json-logger
+pytest
+httpx
+pytest-asyncio

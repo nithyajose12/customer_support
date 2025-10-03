@@ -1,0 +1,7 @@
+[
+  {"id": 1, "subject": "Internet not working", "queue": "IT", "priority_id": 1, "creation_time": "2025-09-25T09:00:00", "status": "Open", "created_user_id": 101, "assigned_user_id": 201, "comment_thread_id": 301},
+  {"id": 2, "subject": "Laptop setup issue", "queue": "IT", "priority_id": 2, "creation_time": "2025-09-24T11:30:00", "status": "Open", "created_user_id": 102, "assigned_user_id": 201, "comment_thread_id": 302},
+  {"id": 3, "subject": "Payroll not updated", "queue": "HR", "priority_id": 2, "creation_time": "2025-09-26T08:30:00", "status": "Open", "created_user_id": 103, "assigned_user_id": 203, "comment_thread_id": 303},
+  {"id": 4, "subject": "Vacation request issue", "queue": "HR", "priority_id": 3, "creation_time": "2025-09-26T09:00:00", "status": "Closed", "created_user_id": 104, "assigned_user_id": 203, "comment_thread_id": 304},
+  {"id": 5, "subject": "Billing issue", "queue": "Others", "priority_id": 1, "creation_time": "2025-09-25T10:00:00", "status": "Open", "created_user_id": 105, "assigned_user_id": 202, "comment_thread_id": 305}
+]
