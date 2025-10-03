@@ -10,25 +10,35 @@ import "./styles/Home.css";
 import "./styles/About.css";
 import Home from "./pages/home";
 import About from "./pages/About";
-
+import Admin from "./pages/Admin";
+import Landing from "./pages/Landing";
+import SignUp from "./pages/SignUp";
+import Login from "./pages/Login";
+import "./styles/Admin.css";
+import "./styles/Landing.css";
+import "./styles/Login.css";
+import "./styles/SignUp.css";
 // import CreateTicket from "./pages/CreateTicket";
 // import MyTickets from "./pages/MyTickets";
 
 function App() {
   return (
     <Router>
-       <Header />
+     
        <main style={{ padding: "20px", minHeight: "80vh" }}>
       <Routes>
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/" element={<Home />} />
+        <Route path="/Home" element={<Home />} />
         <Route path="/about" element={<About />} />
+           <Route path="/admin" element={<Admin />} />
+           <Route path="/landing" element={<Landing />} />
+            <Route path="/login" element={<Login />} />
+             <Route path="/" element={<SignUp />} />
        {/* <Route path="/create" element={<CreateTicket />} />
         <Route path="/tickets" element={<MyTickets />} /> */}
       </Routes>
       </main>
       
-      <Footer/>
     </Router>
   );
 }
